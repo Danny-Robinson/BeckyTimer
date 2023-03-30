@@ -34,11 +34,9 @@ function Timer() {
 			interval = setInterval(() => {
 				setTimer((prevTimer) => {
 					const nextTimer =
-						prevTimer === pattern[patternIndex]
-							? -1
-							: prevTimer + 1;
+						prevTimer === pattern[patternIndex] ? 0 : prevTimer + 1;
 
-					if (nextTimer === -1) {
+					if (nextTimer === 0) {
 						setPatternIndex(
 							patternIndex === 2 ? 0 : patternIndex + 1
 						);
@@ -54,9 +52,10 @@ function Timer() {
 		return () => clearInterval(interval);
 	}, [isRunning, patternIndex, pattern]);
 
+	const nextPatternIndex = patternIndex === 2 ? 0 : patternIndex + 1;
 	return (
 		<div>
-			<h1>{timer}</h1>
+			<h1>{pattern[patternIndex] - timer}</h1>
 			<audio muted src={audioFile} ref={audioRef} />
 			<button onClick={unmute}>Unmute</button>
 			<button onClick={endAlarm}>Stop Alarm</button>
@@ -66,6 +65,7 @@ function Timer() {
 			<button onClick={handleStop} disabled={!isRunning}>
 				Pause timer
 			</button>
+			<div>Next alarm: {pattern[nextPatternIndex]}</div>
 		</div>
 	);
 }
