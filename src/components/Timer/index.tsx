@@ -11,10 +11,6 @@ function Timer() {
 
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
-	const endAlarm = () => {
-		audioRef?.current?.pause();
-	};
-
 	const unmute = () => {
 		if (audioRef?.current?.muted) audioRef.current.muted = false;
 		setMuted(false);
