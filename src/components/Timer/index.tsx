@@ -6,8 +6,8 @@ function Timer() {
 	const [patternIndex, setPatternIndex] = useState(0);
 	const [isRunning, setIsRunning] = useState(false);
 
-	const pattern = useMemo(() => [60, 480, 80], []);
-	// const pattern = useMemo(() => [2, 4, 2], []);
+	const [muted, setMuted] = useState(true);
+	const pattern = useMemo(() => [60, 480, 60], []);
 
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -17,6 +17,7 @@ function Timer() {
 
 	const unmute = () => {
 		if (audioRef?.current?.muted) audioRef.current.muted = false;
+		setMuted(false);
 	};
 
 	const handleStart = () => {
@@ -41,7 +42,6 @@ function Timer() {
 							patternIndex === 2 ? 0 : patternIndex + 1
 						);
 						audioRef?.current?.play();
-						handleStop();
 					}
 
 					return nextTimer;
@@ -53,19 +53,33 @@ function Timer() {
 	}, [isRunning, patternIndex, pattern]);
 
 	const nextPatternIndex = patternIndex === 2 ? 0 : patternIndex + 1;
+
+	const minutes = (time: number) => Math.floor(time / 60);
+	const seconds = (time: number) => time - minutes(time) * 60;
+
+	const time = pattern[patternIndex] - timer;
+
 	return (
 		<div>
-			<h1>{pattern[patternIndex] - timer}</h1>
+			<h1>{`${minutes(time) > 0 ? `${minutes(time)}mins` : ''}  ${seconds(
+				time
+			)}s`}</h1>
 			<audio muted src={audioFile} ref={audioRef} />
-			<button onClick={unmute}>Unmute</button>
-			<button onClick={endAlarm}>Stop Alarm</button>
+			<button
+				onClick={unmute}
+				style={{ backgroundColor: muted ? 'red' : 'green' }}
+			>
+				Unmute
+			</button>
 			<button onClick={handleStart} disabled={isRunning}>
 				Start timer
 			</button>
 			<button onClick={handleStop} disabled={!isRunning}>
 				Pause timer
 			</button>
-			<div>Next alarm: {pattern[nextPatternIndex]}</div>
+			<div style={{ marginTop: 16 }}>
+				Next alarm: {minutes(pattern[nextPatternIndex])}min
+			</div>
 		</div>
 	);
 }
