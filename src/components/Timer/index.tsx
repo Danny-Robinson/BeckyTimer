@@ -6,8 +6,8 @@ function Timer() {
 	const [patternIndex, setPatternIndex] = useState(0);
 	const [isRunning, setIsRunning] = useState(false);
 
-	// const pattern = useMemo(() => [60, 480, 80], []);
-	const pattern = useMemo(() => [2, 4, 2], []);
+	const pattern = useMemo(() => [60, 480, 80], []);
+	// const pattern = useMemo(() => [2, 4, 2], []);
 
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
