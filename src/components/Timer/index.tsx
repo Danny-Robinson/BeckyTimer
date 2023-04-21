@@ -7,7 +7,7 @@ function Timer() {
 	const [isRunning, setIsRunning] = useState(false);
 
 	const [muted, setMuted] = useState(true);
-	const pattern = useMemo(() => [60, 480, 60], []);
+	const pattern = useMemo(() => [60, 480], []);
 
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -35,7 +35,7 @@ function Timer() {
 
 					if (nextTimer === 0) {
 						setPatternIndex(
-							patternIndex === 2 ? 0 : patternIndex + 1
+							patternIndex === 1 ? 0 : patternIndex + 1
 						);
 						audioRef?.current?.play();
 					}
@@ -48,7 +48,7 @@ function Timer() {
 		return () => clearInterval(interval);
 	}, [isRunning, patternIndex, pattern]);
 
-	const nextPatternIndex = patternIndex === 2 ? 0 : patternIndex + 1;
+	const nextPatternIndex = patternIndex === 1 ? 0 : patternIndex + 1;
 
 	const minutes = (time: number) => Math.floor(time / 60);
 	const seconds = (time: number) => time - minutes(time) * 60;
