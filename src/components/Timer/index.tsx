@@ -17,6 +17,7 @@ function Timer() {
 	};
 
 	const handleStart = () => {
+		audioRef?.current?.play();
 		setIsRunning(true);
 	};
 
